@@ -1,0 +1,17 @@
+import { build } from 'esbuild';
+import { cp, mkdir, readdir, rm } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+const require = createRequire(import.meta.url);
+await rm('dist', { recursive: true, force: true });
+await mkdir('dist/ocr/core', { recursive: true });
+await mkdir('dist/ocr/lang', { recursive: true });
+for (const file of ['manifest.json', 'background.js', 'content.js', 'review.html', 'review.css']) await cp('extension/' + file, 'dist/' + file);
+await build({ entryPoints: ['extension/review.js'], bundle: true, outfile: 'dist/review.js', platform: 'browser', target: 'chrome120' });
+const tess = path.dirname(require.resolve('tesseract.js/package.json'));
+await cp(path.join(tess, 'dist/worker.min.js'), 'dist/ocr/worker.min.js');
+const core = path.dirname(require.resolve('tesseract.js-core/package.json'));
+for (const file of await readdir(core)) if (/\.wasm(\.js)?$/.test(file)) await cp(path.join(core, file), 'dist/ocr/core/' + file);
+const lang = path.dirname(require.resolve('@tesseract.js-data/eng/package.json'));
+await cp(path.join(lang, '4.0.0_best_int/eng.traineddata.gz'), 'dist/ocr/lang/eng.traineddata.gz');
+console.log('Built offline extension in dist/');
