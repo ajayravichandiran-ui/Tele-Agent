@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Tele-Agent Bill Assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read a selected bill region locally and review text before filling a website field.",
   "permissions": ["activeTab", "scripting", "storage"],
   "action": { "default_title": "Read bill and fill a field" },
   "background": { "service_worker": "background.js" },
   "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; object-src 'self'; connect-src 'self'"
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; object-src 'self'; connect-src 'self'"
   }
 }
