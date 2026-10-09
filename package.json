@@ -1,12 +1,12 @@
 {
   "name": "tele-agent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test",
-    "test:browser": "npm run build && node scripts/browser-smoke.mjs"
+    "test:browser": "npm run build && node scripts/browser-smoke.mjs && node scripts/sidebar-smoke.mjs"
   },
   "dependencies": {
     "@tesseract.js-data/eng": "1.0.0",

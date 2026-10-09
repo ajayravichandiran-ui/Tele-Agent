@@ -10,4 +10,7 @@ test('MV3 worker policy permits only bundled workers', async () => {
   assert.deepEqual(directives['worker-src'], ["'self'"]);
   assert.deepEqual(directives['script-src'], ["'self'", "'wasm-unsafe-eval'"]);
   assert.match(review, /workerBlobURL:\s*false/);
+  assert.equal(manifest.side_panel.default_path, 'sidebar.html');
+  assert.ok(manifest.permissions.includes('sidePanel'));
+  assert.deepEqual(manifest.host_permissions, ['http://127.0.0.1:11434/*']);
 });

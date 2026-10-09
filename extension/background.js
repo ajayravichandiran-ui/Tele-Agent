@@ -1,8 +1,10 @@
 chrome.action.onClicked.addListener(async tab => {
   try {
+    // Invoke open during the toolbar gesture, before any awaited work.
+    await chrome.sidePanel.open({ windowId: tab.windowId });
     if (!tab.id || !/^https?:/.test(tab.url || '')) throw new Error('Open the bill website first.');
-    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
-    await chrome.tabs.sendMessage(tab.id, { type: 'select-field' });
+    await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['page-agent.js'] });
+    await chrome.action.setBadgeText({ text: '' });
   } catch (error) {
     await chrome.action.setBadgeText({ text: '!' });
     await chrome.action.setTitle({ title: error.message });
